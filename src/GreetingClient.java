@@ -7,8 +7,6 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 public class GreetingClient {
-    public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
-
     public static String decryptAES(byte[] encryptedMessage, byte[] key) throws Exception {
         SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
         Cipher cipher = Cipher.getInstance("AES");
@@ -17,10 +15,10 @@ public class GreetingClient {
         return new String(decryptedBytes);
     }
 
-    public static boolean verifySignature(String message, String signature, PublicKey publicKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+    public static boolean verifySignature(byte[] message, String signature, PublicKey publicKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         Signature rsa = Signature.getInstance("SHA256withRSA");
         rsa.initVerify(publicKey);
-        rsa.update(message.getBytes());
+        rsa.update(message);
         byte[] signatureBytes = Base64.getDecoder().decode(signature);
         return rsa.verify(signatureBytes);
     }
@@ -38,6 +36,11 @@ public class GreetingClient {
         byte[] key = new byte[16]; // Use the first 16 bytes (128 bits) for AES key
         System.arraycopy(hash, 0, key, 0, 16);
         return key;
+    }
+
+    public static byte[] hashMessage(byte[] message) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        return digest.digest(message);
     }
 
     public static void main(String[] args) {
@@ -80,18 +83,21 @@ public class GreetingClient {
 
             BufferedReader inFromServerMsg = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
-            String encryptedMessage = inFromServerMsg.readLine();
+            String encryptedMessageBase64 = inFromServerMsg.readLine();
             String signature = inFromServerMsg.readLine();
             String base64PublicKey = inFromServerMsg.readLine();
 
             PublicKey publicKey = getPublicKeyFromBase64(base64PublicKey);
 
-            boolean isVerified = verifySignature(encryptedMessage, signature, publicKey);
+            byte[] encryptedMessage = Base64.getDecoder().decode(encryptedMessageBase64);
+
+            byte[] hashedMessage = hashMessage(encryptedMessage);
+
+            boolean isVerified = verifySignature(hashedMessage, signature, publicKey);
             if (isVerified) {
                 System.out.println("Signature valid. Trusted communication established.");
-                byte[] sharedSecretKey = hashSharedSecret(Adash); // Properly hashed shared secret for AES key
-                byte[] encryptedMessageBytes = Base64.getDecoder().decode(encryptedMessage);
-                String decryptedMessage = decryptAES(encryptedMessageBytes, sharedSecretKey);
+                byte[] sharedSecretKey = hashSharedSecret(Adash);
+                String decryptedMessage = decryptAES(encryptedMessage, sharedSecretKey);
                 System.out.println("Decrypted message from server: " + decryptedMessage);
             } else {
                 System.out.println("Signature invalid. Communication not trusted.");

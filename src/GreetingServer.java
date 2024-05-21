@@ -21,10 +21,10 @@ public class GreetingServer {
         return keyGen.generateKeyPair();
     }
 
-    public static String signMessage(String message, PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+    public static String signMessage(byte[] message, PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         Signature rsa = Signature.getInstance("SHA256withRSA");
         rsa.initSign(privateKey);
-        rsa.update(message.getBytes());
+        rsa.update(message);
         byte[] signature = rsa.sign();
         return Base64.getEncoder().encodeToString(signature);
     }
@@ -37,10 +37,15 @@ public class GreetingServer {
         return key;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static byte[] hashMessage(byte[] message) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        return digest.digest(message);
+    }
+
+    public static void main(String[] args) {
         try {
             int port = 8088;
-            keyPair = generateKeyPair();  // Generate RSA key pair
+            keyPair = generateKeyPair();
 
             int b = 3;  // Server's private key
 
@@ -74,14 +79,22 @@ public class GreetingServer {
             Bdash = ((Math.pow(clientA, b)) % clientP); // calculation of Bdash
             System.out.println("Secret Key to perform Symmetric Encryption = " + Bdash);
 
-            byte[] sharedSecretKey = hashSharedSecret(Bdash); // Properly hashed shared secret for AES key
+            byte[] sharedSecretKey = hashSharedSecret(Bdash);
             byte[] encryptedMessage = encryptAES("Hellofromtheserver", sharedSecretKey);
             String encryptedMessageBase64 = Base64.getEncoder().encodeToString(encryptedMessage);
 
-            // Sign the message
-            String signature = signMessage(encryptedMessageBase64, keyPair.getPrivate());
+            System.out.println("Encrypted message (Base64): " + encryptedMessageBase64);
 
-            // Send the encrypted message, signature, and public key
+            // Hash the encrypted message
+            byte[] hashedMessage = hashMessage(encryptedMessage);
+
+            System.out.println("Hashed message (Base64): " + Base64.getEncoder().encodeToString(hashedMessage));
+
+            // Sign the hashed message
+            String signature = signMessage(hashedMessage, keyPair.getPrivate());
+
+            System.out.println("Signature: " + signature);
+
             PrintWriter outToClientMsg = new PrintWriter(server.getOutputStream(), true);
             outToClientMsg.println(encryptedMessageBase64);
             outToClientMsg.println(signature);
