@@ -57,11 +57,11 @@ merr pjesë në shkëmbimin e çelësave dhe dërgon një mesazh të enkriptuar 
 #### Pershkrimi i programit ndahet ne disa pjese kryesore:
 
 ##### Metoda e Enkriptimit AES:
-**Qëllimi: Enkripton një mesazh duke përdorur algoritmin AES.
-**Parametrat:
+**Qëllimi**: Enkripton një mesazh duke përdorur algoritmin AES.
+**Parametrat**:
 -message: Mesazhi i tekstit të pastër që do të enkriptohet.
 -key: Çelësi simetrik AES për enkriptim.
-**Procesi: Krijon një Cipher për AES dhe enkripton mesazhin me çelësin e dhënë.
+**Procesi**: Krijon një Cipher për AES dhe enkripton mesazhin me çelësin e dhënë.
 
 ##### Gjenerimi i Çiftit të Çelësave RSA:
 **Qëllimi: Gjeneron një çift çelësash RSA (privat dhe publik).
