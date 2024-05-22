@@ -1,3 +1,55 @@
+
+#Siguria e të Dhënave/Diffie-Hellman and Digital Signatures Console Application
+
+#Përmbledhje e Projektit
+
+Ky projekt përfshin krijimin e një aplikacioni për komunikim të sigurtë klient-server duke përdorur Java. Aplikacioni përdor protokollin e shkëmbimit të çelësave Diffie-Hellman për të vendosur një sekret të përbashkët dhe nënshkrimet dixhitale për të siguruar integritetin dhe autenticitetin e mesazheve të shkëmbyera midis klientit dhe serverit.
+
+#Objektivat
+
+1. Implementimi i protokollit të shkëmbimit të çelësave Diffie-Hellman për të vendosur një sekret të përbashkët të sigurtë.
+2. Përdorimi i nënshkrimeve dixhitale për të verifikuar integritetin dhe autenticitetin e mesazheve.
+3. Kuptimi i aplikimit praktik të kriptografisë asimetrike në komunikimet e sigurta.
+
+#Shkëmbimi i Çelësave Diffie-Hellman
+
+Algoritmi i shkëmbimit të çelësave Diffie-Hellman është një metodë që përdoret për të shkëmbyer çelësa kriptografikë në mënyrë të sigurt mbi një kanal publik. Ky protokoll lejon dy palë, secila me një vlerë private dhe një vlerë publike përkatëse, të gjenerojnë një sekret të përbashkët pa transmetuar sekretin vetë. Ky sekret i përbashkët mund të përdoret më pas si një çelës për algoritme të kriptimit simetrik si AES.
+
+#Krijimi dhe Verifikimi i Nënshkrimit Digjital
+
+Nënshkrimet digjitale janë teknika kriptografike që përdoren për të siguruar vërtetësinë dhe integritetin e një mesazhi. Ato ofrojnë një mënyrë për të verifikuar që mesazhi është krijuar nga një dërgues i njohur dhe nuk është ndryshuar gjatë transmetimit. Kjo arrihet duke përdorur një çift çelësash: një çelës privat (i njohur vetëm nga nënshkruesi) dhe një çelës publik (i ndarë me këdo që ka nevojë të verifikojë nënshkrimin).
+
+##Mesazhet midis klientit dhe serverit janë të koduara duke përdorur kriptimin AES, i cili përdor çelësin e përbashkët të gjeneruar nga shkëmbimi i çelësave Diffie-Hellman.
+
+#Implementimi i Serverit
+Serveri:
+
+- Dëgjon për lidhje nga klientët.
+- Merr pjesë në shkëmbimin e çelësave Diffie-Hellman.
+- Nënshkruan mesazhet dhe i dërgon ato klientit së bashku me çelësin publik.
+
+#Implementimi i Klientit
+Klienti:
+
+- Lidhet me serverin dhe merr pjesë në shkëmbimin e çelësave Diffie-Hellman.
+- Verifikon nënshkrimin dixhital të serverit.
+- Dekripton mesazhet e marra duke përdorur çelësin e përbashkët.
+
+Përmbledhje e kodit:
+
+##Kodi i Serverit:
+Gjenerimi i Çelësave: Serveri gjeneron një palë çelësa RSA për nënshkrimin e mesazheve.
+Shkëmbimi i Çelësave Diffie-Hellman: Serveri llogarit vlerën publike të tij dhe e shkëmben atë me klientin.
+Kriptimi i Mesazheve: Serveri kodon një mesazh duke përdorur AES me çelësin e përbashkët.
+Nënshkrimi i Mesazheve: Serveri nënshkruan mesazhin e hash-uar me çelësin privat RSA.
+Komunikimi: Serveri dërgon mesazhin e koduar, nënshkrimin dhe çelësin publik te klienti.
+
+##Kodi i Klientit
+Shkëmbimi i Çelësave Diffie-Hellman: Klienti llogarit vlerën publike të tij dhe e shkëmben atë me serverin.
+Verifikimi i Nënshkrimit: Klienti verifikon nënshkrimin e serverit duke përdorur çelësin publik të marrë.
+Dekriptimi i Mesazheve: Klienti dekripton mesazhin e marrë duke përdorur AES me çelësin e përbashkët.
+
+
 ##GreetingServer
 Ky projekt implementon një aplikacion në anën e serverit për protokollin e shkëmbimit të çelësave Diffie-Hellman, 
 i cili vendos një çelës sekret të përbashkët për enkriptimin simetrik. Serveri pret për lidhje nga klientët, 
