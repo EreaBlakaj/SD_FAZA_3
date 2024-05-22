@@ -103,6 +103,49 @@ GreetingClient është një aplikacion klient-server që përdor Diffie-Hellman 
 
 Integriteti i mesazhit sigurohet duke hash-uar mesazhin para nënshkrimit. Mos-mohimi arrihet duke përdorur nënshkrimet RSA, duke siguruar që dërguesi nuk mund të mohojë autenticitetin e mesazhit.
 
+### Përdorimi dhe funksionet e librarive:
+
+Në detyrën tonë janë përdorur disa librari të gatshme që ofrojnë funksione të ndryshme për të mbështetur kriptografinë, komunikimin përmes rrjetit, dhe manipulimin e të dhënave. Këtu janë libraritë kryesore të përdorura dhe funksionet që kryejnë ato:
+
+#### java.net:
+
+- **ServerSocket**: Kjo klasë përdoret nga serveri për të pritur lidhjet nga klientët në një port të caktuar.
+- **Socket**: Kjo klasë përdoret nga klienti për të krijuar një lidhje me serverin dhe nga serveri për të komunikuar me klientin.
+- **InetAddress:** Kjo klasë përdoret për të përfaqësuar një adresë IP.
+- **SocketException dhe SocketTimeoutException:** Këto klasa përdoren për të trajtuar gabimet dhe kohëzgjatjet e lidhjeve të rrjetit.
+
+#### java.io:
+
+- **DataInputStream dhe DataOutputStream**: Këto klasa përdoren për të lexuar dhe shkruar të dhëna primitive (si int, double, UTF) në rrjedhën e të dhënave.
+- **BufferedReader dhe InputStreamReader**: Këto klasa përdoren për të lexuar të dhëna tekstuale nga një rrjedhë hyrëse.
+- **PrintWriter**: Kjo klasë përdoret për të shkruar të dhëna tekstuale në një rrjedhë daljeje.
+
+#### java.security:
+
+- **KeyPair dhe KeyPairGenerator**: Këto klasa përdoren për të krijuar një çift çelësash publik dhe privat për algoritmin RSA.
+- **PrivateKey dhe PublicKey**: Këto janë ndërfaqe për çelësat kriptografikë.
+- **Signature**: Kjo klasë përdoret për të krijuar dhe verifikuar nënshkrimet dixhitale me algoritmin SHA256withRSA.
+- **MessageDigest**: Kjo klasë përdoret për të krijuar hash-e të të dhënave me algoritmin SHA-256.
+- **NoSuchAlgorithmException dhe InvalidKeyException**: Këto janë përjashtime që trajtojnë gabimet gjatë përdorimit të algoritmeve kriptografikë dhe çelësave të pavlefshëm.
+
+#### javax.crypto:
+
+- **Cipher**: Kjo klasë përdoret për të kryer operacionet kriptografike si enkriptimi dhe dekriptimi. Në këtë kod përdoret për algoritmin AES.
+- **SecretKeySpec**: Kjo klasë përdoret për të përfaqësuar një çelës sekret për algoritmin AES.
+
+#### java.util.Base64:
+
+- **Base64.Encoder dhe Base64.Decoder**: Këto klasa përdoren për të koduar dhe dekoduar të dhënat në formatin Base64, që është një mënyrë për të paraqitur të dhëna binare si tekst.
+
+#### Funksionet kryesore që kryejnë këto klasa në kod janë:
+
+1. **Enkriptimi dhe dekriptimi me AES**: Përdor Cipher dhe SecretKeySpec për të enkriptuar dhe dekriptuar mesazhe. 
+2. **Gjenerimi dhe menaxhimi i çelësave RSA**: Përdor KeyPairGenerator për të krijuar një çift çelësash RSA dhe Signature për të nënshkruar dhe verifikuar mesazhe.
+3. **Kodimi dhe dekodimi me Base64**: Përdor Base64 për të koduar dhe dekoduar mesazhe të enkriptuara dhe nënshkrime.
+4. **Krijimi i hash-eve**: Përdor MessageDigest për të krijuar hash-e të mesazheve dhe sekreteve të ndara.
+5. **Komunikimi përmes rrjetit**: Përdor ServerSocket dhe Socket për të krijuar dhe menaxhuar lidhjet ndërmjet klientit dhe serverit.
+
+
 ### Ekzekutimi i aplikacionit
 
 Më poshtë kemi paraqitur ekzekutimin e aplikacionit që kemi krijuar, dhe rezultatet që dalin në terminal. Kemi implementuar edhe Debug Prints për të treguar shkëmbimin korrekt të të dhënave mes serverit dhe klientit.
