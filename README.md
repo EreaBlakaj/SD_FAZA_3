@@ -81,5 +81,34 @@ Llogarit çelësin sekret të përbashkët Bdash.
 - Mbyllja e Lidhjes: Serveri mbyll lidhjen pas dërgimit të mesazhit të enkriptuar.
 Ky implementim demonstron një shkëmbim të thjeshtë të çelësave Diffie-Hellman dhe përdor një enkriptim të thjeshtë Caesar për mesazhin. Ai tregon procesin e vendosjes së një çelësi të përbashkët mbi një kanal të pasigurt, i cili më pas mund të përdoret për komunikim të sigurt.
 
+### Si Funksionon GreetingClient?
 
+GreetingClient është një aplikacion klient-server që përdor Diffie-Hellman për të gjeneruar një çelës sekret të përbashkët dhe RSA për nënshkrimin dhe verifikimin e mesazheve. Ky klient lidhet me një server, ndan parametrat për Diffie-Hellman, verifikon nënshkrimin e mesazheve dhe më pas deshifron mesazhin e marrë nga serveri. Ja se si funksionon ky klient në detaje:
 
+**Funksionet Kryesore:**
+
+- decryptAES: Dekripton një mesazh të enkriptuar me AES duke përdorur një çelës specifik.
+- verifySignature: Verifikon nënshkrimin digjital të një mesazhi duke përdorur çelësin publik të serverit.
+- getPublicKeyFromBase64: Konverton një çelës publik nga formati Base64 në një objekt PublicKey.
+- hashSharedSecret: Hashon çelësin e përbashkët Diffie-Hellman për të krijuar një çelës 128-bitësh për AES.
+- hashMessage: Krijon një hash të mesazhit duke përdorur SHA-256.
+
+1. Klienti përcakton parametrat p, g, dhe çelësin privat a për algoritmin Diffie-Hellman. Ai lidhet me serverin në portin 8088.
+2. Klienti dërgon parametrat p, g, dhe çelësin publik A të llogaritur te serveri.
+3. Klienti merr çelësin publik B nga serveri dhe llogarit çelësin e përbashkët Adash.
+4. Klienti merr mesazhin e enkriptuar, nënshkrimin digjital, dhe çelësin publik të serverit.
+5. Klienti verifikon nënshkrimin e mesazhit duke përdorur çelësin publik të serverit. Nëse nënshkrimi është i vlefshëm, klienti krijon çelësin simetrik për AES nga çelësi i përbashkët dhe dekripton mesazhin e enkriptuar.
+
+### Integriteti dhe Mos-Mohimi i Mesazheve
+
+Integriteti i mesazhit sigurohet duke hash-uar mesazhin para nënshkrimit. Mos-mohimi arrihet duke përdorur nënshkrimet RSA, duke siguruar që dërguesi nuk mund të mohojë autenticitetin e mesazhit.
+
+### Punuan:
+
+##### _Erald Keka_
+
+##### _Erea Blakaj_
+
+##### _Era Sheqiri_
+
+##### _Erëza Temaj_
