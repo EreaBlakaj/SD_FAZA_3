@@ -54,32 +54,42 @@ Ky projekt implementon një aplikacion në anën e serverit për protokollin e s
 i cili vendos një çelës sekret të përbashkët për enkriptimin simetrik. Serveri pret për lidhje nga klientët, 
 merr pjesë në shkëmbimin e çelësave dhe dërgon një mesazh të enkriptuar te klienti
 
+#### Pershkrimi i programit ndahet ne disa pjese kryesore:
 
+##### Metoda e Enkriptimit AES:
+Qëllimi: Enkripton një mesazh duke përdorur algoritmin AES.
+Parametrat:
+-message: Mesazhi i tekstit të pastër që do të enkriptohet.
+-key: Çelësi simetrik AES për enkriptim.
+Procesi: Krijon një Cipher për AES dhe enkripton mesazhin me çelësin e dhënë.
 
-#### Pershkrimi i programit ndahet ne disa metoda kryesore:
+##### Gjenerimi i Çiftit të Çelësave RSA:
+-Qëllimi: Gjeneron një çift çelësash RSA (privat dhe publik).
+-Procesi: Përdor KeyPairGenerator për të gjeneruar një çift çelësash RSA me madhësi 2048 bit.
 
-##### Metoda e Enkriptimit:
+##### Nënshkrimi i Mesazhit:
+Qëllimi: Nënshkruan një mesazh duke përdorur çelësin privat RSA.
+Parametrat:
+-message: Mesazhi që do të nënshkruhet.
+-privateKey: Çelësi privat RSA.
+Procesi: Krijon një Signature për SHA256withRSA, nënshkruan mesazhin dhe e kthen nënshkrimin në formatin Base64.
 
-Kjo metodë kryen një enkriptim të thjeshtë Caesar në një mesazh të dhënë duk Kjo metodë kryen një enkriptim të thjeshtë Caesar në një mesazh të dhënë duke përdorur një çelës zhvendosjeje.
+##### Hash-i i Sekretit të Përbashkët:
+Qëllimi: Krijon një çelës AES nga sekreti i përbashkët i shkëmbyer.
+Parametrat:
+-sharedSecret: Sekreti i përbashkët i shkëmbyer.
+Procesi: Krijon një hash SHA-256 nga sekreti i përbashkët dhe përdor 16 bajtet e para të hash-it si çelës AES.
 
-##### Parametrat:
-
-- message: Mesazhi i tekstit të pastër që do të enkriptohet.
-- shiftKey: Çelësi i zhvendosjes që përdoret për enkriptimin Caesar.
-**Procesi**: Metoda konverton secilën shkronjë të mesazhit në shkronjën përkatëse në alfabet të zhvendosur nga çelësi i zhvendosjes. Rezultati është një tekst i enkriptuar
+##### Hash-i i Mesazhit:
+Qëllimi: Gjeneron një hash SHA-256 nga një mesazh.
+Parametrat:
+-message: Mesazhi që do të hashohet.
+Procesi: Krijon një hash SHA-256 nga mesazhi i dhënë.
 
 ##### Metoda kryesore:
+Metoda kryesore (main) është aty ku ekzekutohet logjika kryesore e programit. Ajo përmban hapat e nevojshëm për të krijuar një server që përdor protokollin Diffie-Hellman për të shkëmbyer një çelës sekret dhe RSA për të nënshkruar mesazhet
 
-- Konfigurimi i Portit: Serveri dëgjon në portin 8088.
-- Çelësi i Serverit: Çelësi privat i serverit b është vendosur në 3.
-- Vendosja e Lidhjes: Serveri pret për një lidhje nga klienti dhe pastaj pranon lidhjen.
-- Shkëmbimi i Çelësave:
-Serveri pranon parametrat e klientit p, g dhe A.
-Llogarit vlerën e tij publike B dhe ia dërgon klientit.
-Llogarit çelësin sekret të përbashkët Bdash.
-- Enkriptimi i Mesazhit: Duke përdorur çelësin sekret Bdash, serveri enkripton një mesazh të paracaktuar ("Hellofromtheserver") me enkriptimin Caesar dhe ia dërgon mesazhin e enkriptuar klientit.
-- Mbyllja e Lidhjes: Serveri mbyll lidhjen pas dërgimit të mesazhit të enkriptuar.
-Ky implementim demonstron një shkëmbim të thjeshtë të çelësave Diffie-Hellman dhe përdor një enkriptim të thjeshtë Caesar për mesazhin. Ai tregon procesin e vendosjes së një çelësi të përbashkët mbi një kanal të pasigurt, i cili më pas mund të përdoret për komunikim të sigurt.
+
 
 ### Si Funksionon GreetingClient?
 
