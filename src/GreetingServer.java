@@ -42,10 +42,10 @@ public class GreetingServer {
         return digest.digest(message);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try {
             int port = 8088;
-            keyPair = generateKeyPair();
+            keyPair = generateKeyPair();  // Generate RSA key pair
 
             int b = 3;  // Server's private key
 
@@ -79,13 +79,13 @@ public class GreetingServer {
             Bdash = ((Math.pow(clientA, b)) % clientP); // calculation of Bdash
             System.out.println("Secret Key to perform Symmetric Encryption = " + Bdash);
 
-            byte[] sharedSecretKey = hashSharedSecret(Bdash);
+            byte[] sharedSecretKey = hashSharedSecret(Bdash); // Properly hashed shared secret for AES key
             byte[] encryptedMessage = encryptAES("Hellofromtheserver", sharedSecretKey);
             String encryptedMessageBase64 = Base64.getEncoder().encodeToString(encryptedMessage);
 
             System.out.println("Encrypted message (Base64): " + encryptedMessageBase64);
 
-            // Hash the encrypted message
+            // Hash the encrypted message before signing
             byte[] hashedMessage = hashMessage(encryptedMessage);
 
             System.out.println("Hashed message (Base64): " + Base64.getEncoder().encodeToString(hashedMessage));
@@ -95,6 +95,7 @@ public class GreetingServer {
 
             System.out.println("Signature: " + signature);
 
+            // Send the encrypted message, signature, and public key
             PrintWriter outToClientMsg = new PrintWriter(server.getOutputStream(), true);
             outToClientMsg.println(encryptedMessageBase64);
             outToClientMsg.println(signature);

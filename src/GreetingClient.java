@@ -7,6 +7,8 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 public class GreetingClient {
+    public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+
     public static String decryptAES(byte[] encryptedMessage, byte[] key) throws Exception {
         SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
         Cipher cipher = Cipher.getInstance("AES");
@@ -87,16 +89,23 @@ public class GreetingClient {
             String signature = inFromServerMsg.readLine();
             String base64PublicKey = inFromServerMsg.readLine();
 
+            System.out.println("Encrypted message (Base64): " + encryptedMessageBase64);
+            System.out.println("Signature: " + signature);
+            System.out.println("Public key (Base64): " + base64PublicKey);
+
             PublicKey publicKey = getPublicKeyFromBase64(base64PublicKey);
 
             byte[] encryptedMessage = Base64.getDecoder().decode(encryptedMessageBase64);
 
+            // Hash the received encrypted message before verifying the signature
             byte[] hashedMessage = hashMessage(encryptedMessage);
+
+            System.out.println("Hashed message (Base64): " + Base64.getEncoder().encodeToString(hashedMessage));
 
             boolean isVerified = verifySignature(hashedMessage, signature, publicKey);
             if (isVerified) {
                 System.out.println("Signature valid. Trusted communication established.");
-                byte[] sharedSecretKey = hashSharedSecret(Adash);
+                byte[] sharedSecretKey = hashSharedSecret(Adash); // Properly hashed shared secret for AES key
                 String decryptedMessage = decryptAES(encryptedMessage, sharedSecretKey);
                 System.out.println("Decrypted message from server: " + decryptedMessage);
             } else {
