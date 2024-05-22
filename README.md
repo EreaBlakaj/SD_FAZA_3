@@ -59,35 +59,35 @@ merr pjesë në shkëmbimin e çelësave dhe dërgon një mesazh të enkriptuar 
 ##### Metoda e Enkriptimit AES:
 **Qëllimi**: Enkripton një mesazh duke përdorur algoritmin AES.
 **Parametrat**:
--message: Mesazhi i tekstit të pastër që do të enkriptohet.
--key: Çelësi simetrik AES për enkriptim.
+- message: Mesazhi i tekstit të pastër që do të enkriptohet.
+- key: Çelësi simetrik AES për enkriptim.
 **Procesi**: Krijon një Cipher për AES dhe enkripton mesazhin me çelësin e dhënë.
 
 ##### Gjenerimi i Çiftit të Çelësave RSA:
-**Qëllimi: Gjeneron një çift çelësash RSA (privat dhe publik).
-**Procesi: Përdor KeyPairGenerator për të gjeneruar një çift çelësash RSA me madhësi 2048 bit.
+**Qëllimi**: Gjeneron një çift çelësash RSA (privat dhe publik).
+**Procesi**: Përdor KeyPairGenerator për të gjeneruar një çift çelësash RSA me madhësi 2048 bit.
 
 ##### Nënshkrimi i Mesazhit:
-**Qëllimi: Nënshkruan një mesazh duke përdorur çelësin privat RSA.
-**Parametrat:
--message: Mesazhi që do të nënshkruhet.
--privateKey: Çelësi privat RSA.
-**Procesi: Krijon një Signature për SHA256withRSA, nënshkruan mesazhin dhe e kthen nënshkrimin në formatin Base64.
+**Qëllimi**: Nënshkruan një mesazh duke përdorur çelësin privat RSA.
+**Parametrat**:
+- message: Mesazhi që do të nënshkruhet.
+- privateKey: Çelësi privat RSA.
+**Procesi**: Krijon një Signature për SHA256withRSA, nënshkruan mesazhin dhe e kthen nënshkrimin në formatin Base64.
 
 ##### Hash-i i Sekretit të Përbashkët:
-**Qëllimi: Krijon një çelës AES nga sekreti i përbashkët i shkëmbyer.
-**Parametrat:
--sharedSecret: Sekreti i përbashkët i shkëmbyer.
-**Procesi: Krijon një hash SHA-256 nga sekreti i përbashkët dhe përdor 16 bajtet e para të hash-it si çelës AES.
+**Qëllimi**: Krijon një çelës AES nga sekreti i përbashkët i shkëmbyer.
+**Parametrat**:
+- sharedSecret: Sekreti i përbashkët i shkëmbyer.
+**Procesi**: Krijon një hash SHA-256 nga sekreti i përbashkët dhe përdor 16 bajtet e para të hash-it si çelës AES.
 
 ##### Hash-i i Mesazhit:
-**Qëllimi: Gjeneron një hash SHA-256 nga një mesazh.
-**Parametrat:
--message: Mesazhi që do të hashohet.
-**Procesi: Krijon një hash SHA-256 nga mesazhi i dhënë.
+**Qëllimi**: Gjeneron një hash SHA-256 nga një mesazh.
+**Parametrat**:
+- message: Mesazhi që do të hashohet.
+**Procesi**: Krijon një hash SHA-256 nga mesazhi i dhënë.
 
 ##### Metoda kryesore:
-**Metoda kryesore (main) është aty ku ekzekutohet logjika kryesore e programit. Ajo përmban hapat e nevojshëm për të krijuar një server që përdor protokollin Diffie-Hellman për të shkëmbyer një çelës sekret dhe RSA për të nënshkruar mesazhet
+Metoda kryesore (main) është aty ku ekzekutohet logjika kryesore e programit. Ajo përmban hapat e nevojshëm për të krijuar një server që përdor protokollin Diffie-Hellman për të shkëmbyer një çelës sekret dhe RSA për të nënshkruar mesazhet.
 
 
 
