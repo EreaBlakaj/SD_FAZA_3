@@ -107,7 +107,7 @@ Integriteti i mesazhit sigurohet duke hash-uar mesazhin para nënshkrimit. Mos-m
 
 Më poshtë kemi paraqitur ekzekutimin e aplikacionit që kemi krijuar, dhe rezultatet që dalin në terminal. Kemi implementuar edhe Debug Prints për të treguar shkëmbimin korrekt të të dhënave mes serverit dhe klientit.
 
-
+![image](https://github.com/EreaBlakaj/SD_FAZA_3/assets/120092128/a32260f1-488d-477e-86e2-5b03ad37ace9)
 
 
 ### Punuan:
