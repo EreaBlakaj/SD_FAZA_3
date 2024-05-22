@@ -103,6 +103,13 @@ GreetingClient është një aplikacion klient-server që përdor Diffie-Hellman 
 
 Integriteti i mesazhit sigurohet duke hash-uar mesazhin para nënshkrimit. Mos-mohimi arrihet duke përdorur nënshkrimet RSA, duke siguruar që dërguesi nuk mund të mohojë autenticitetin e mesazhit.
 
+### Ekzekutimi i aplikacionit
+
+Më poshtë kemi paraqitur ekzekutimin e aplikacionit që kemi krijuar, dhe rezultatet që dalin në terminal. Kemi implementuar edhe Debug Prints për të treguar shkëmbimin korrekt të të dhënave mes serverit dhe klientit.
+
+
+
+
 ### Punuan:
 
 ##### _Erald Keka_
